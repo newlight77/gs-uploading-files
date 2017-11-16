@@ -1,8 +1,13 @@
 package hello;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.stream.Collectors;
 
+import org.apache.tomcat.util.http.fileupload.FileItemIterator;
+import org.apache.tomcat.util.http.fileupload.FileItemStream;
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
+import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -21,6 +26,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import hello.storage.StorageFileNotFoundException;
 import hello.storage.StorageService;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class FileUploadController {
@@ -52,14 +59,42 @@ public class FileUploadController {
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
-    @PostMapping("/")
-    public String handleFileUpload(@RequestParam("file") MultipartFile file,
+    @PostMapping("/upload")
+    public String upload(@RequestParam String filename, HttpServletRequest request) {
+
+        try {
+            storageService.store("test-is.iso", request.getInputStream());
+        } catch (IOException e) {
+
+        }
+
+        return "redirect:/";
+    }
+
+    @PostMapping("/upload/multipart")
+    public String multipart(@RequestParam("file") MultipartFile file, HttpServletRequest request,
             RedirectAttributes redirectAttributes) {
 
         storageService.store(file);
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
 
+        return "redirect:/";
+    }
+
+    @PostMapping("/upload/fileupload")
+    public String fileupload(HttpServletRequest request) throws IOException, FileUploadException {
+
+        ServletFileUpload upload = new ServletFileUpload();
+
+        FileItemIterator iterator = upload.getItemIterator(request);
+        while (iterator.hasNext()) {
+            FileItemStream item = iterator.next();
+
+            if (!item.isFormField()) {
+                storageService.store("test-fileupload.iso", item.openStream());
+            }
+        }
         return "redirect:/";
     }
 

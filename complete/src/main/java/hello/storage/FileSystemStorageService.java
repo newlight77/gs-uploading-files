@@ -1,6 +1,7 @@
 package hello.storage;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -41,6 +42,23 @@ public class FileSystemStorageService implements StorageService {
             }
             Files.copy(file.getInputStream(), this.rootLocation.resolve(filename),
                     StandardCopyOption.REPLACE_EXISTING);
+        }
+        catch (IOException e) {
+            throw new StorageException("Failed to store file " + filename, e);
+        }
+    }
+
+    @Override
+    public void store(String filename, InputStream is) {
+        try {
+            if (filename.contains("..")) {
+                // This is a security check
+                throw new StorageException(
+                    "Cannot store file with relative path outside current directory "
+                        + filename);
+            }
+            Files.copy(is, this.rootLocation.resolve(filename),
+                StandardCopyOption.REPLACE_EXISTING);
         }
         catch (IOException e) {
             throw new StorageException("Failed to store file " + filename, e);
