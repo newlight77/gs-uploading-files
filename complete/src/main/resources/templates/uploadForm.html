@@ -8,20 +8,35 @@
 	<div>
 		<form method="POST" action="/upload">
 			<table>
-				<tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
-				<tr><td></td><td><input type="submit" value="Upload" /></td></tr>
+        <tr><B>Using simple upload</B></tr>
+				<tr>
+          <td>File to upload:</td>
+          <td><input type="file" name="file" /></td></tr>
+				<tr>
+          <td></td>
+          <td><input type="submit" value="Upload" /></td></tr>
 			</table>
 		</form>
 		<form method="POST" enctype="multipart/form-data" action="/upload/multipart">
 			<table>
-				<tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
-				<tr><td></td><td><input type="submit" value="Upload" /></td></tr>
+        <tr><B>Using multipart</B></tr>
+				<tr>
+          <td>File to upload with multipart:</td>
+          <td><input type="file" name="file" /></td></tr>
+				<tr>
+          <td></td>
+          <td><input type="submit" value="Upload" /></td></tr>
 			</table>
 		</form>
 		<form method="POST" enctype="multipart/form-data" action="/upload/fileupload">
 			<table>
-				<tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
-				<tr><td></td><td><input type="submit" value="Upload" /></td></tr>
+        <tr><B>Using fileupload</B></tr>
+				<tr>
+          <td>File to upload with fileupload:</td>
+          <td><input type="file" name="file" /></td></tr>
+				<tr>
+          <td></td>
+          <td><input type="submit" value="Upload" /></td></tr>
 			</table>
 		</form>
 	</div>
