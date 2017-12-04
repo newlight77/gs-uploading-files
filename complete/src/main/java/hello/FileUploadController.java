@@ -63,7 +63,7 @@ public class FileUploadController {
     public String upload(@RequestParam String filename, HttpServletRequest request) {
 
         try {
-            storageService.store("test-is.iso", request.getInputStream());
+            storageService.store("test.json", request.getInputStream());
         } catch (IOException e) {
 
         }
