@@ -39,7 +39,7 @@ public class FileUploadController {
         this.storageService = storageService;
     }
 
-    @GetMapping("/")
+    @GetMapping("files")
     public String listUploadedFiles(Model model) throws IOException {
 
         model.addAttribute("files", storageService.loadAll().map(
@@ -50,7 +50,7 @@ public class FileUploadController {
         return "uploadForm";
     }
 
-    @GetMapping("/files/{filename:.+}")
+    @GetMapping("files/{filename:.+}")
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
 
@@ -59,11 +59,11 @@ public class FileUploadController {
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
-    @PostMapping("/upload")
+    @PostMapping("files/upload/request")
     public String upload(@RequestParam String filename, HttpServletRequest request) {
 
         try {
-            storageService.store("test.json", request.getInputStream());
+            storageService.store(filename, request.getInputStream());
         } catch (IOException e) {
 
         }
@@ -71,7 +71,7 @@ public class FileUploadController {
         return "redirect:/";
     }
 
-    @PostMapping("/upload/multipart")
+    @PostMapping("files/upload/multipart")
     public String multipart(@RequestParam("file") MultipartFile file, HttpServletRequest request,
             RedirectAttributes redirectAttributes) {
 
@@ -82,8 +82,8 @@ public class FileUploadController {
         return "redirect:/";
     }
 
-    @PostMapping("/upload/fileupload")
-    public String fileupload(HttpServletRequest request) throws IOException, FileUploadException {
+    @PostMapping("files/upload/fileupload")
+    public String fileupload(@RequestParam String filename, HttpServletRequest request) throws IOException, FileUploadException {
 
         ServletFileUpload upload = new ServletFileUpload();
 
@@ -92,7 +92,7 @@ public class FileUploadController {
             FileItemStream item = iterator.next();
 
             if (!item.isFormField()) {
-                storageService.store("test-fileupload.iso", item.openStream());
+                storageService.store(filename, item.openStream());
             }
         }
         return "redirect:/";

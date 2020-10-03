@@ -1,13 +1,12 @@
 {
 	"info": {
-		"name": "gs-uploading-files",
 		"_postman_id": "704ff7bf-c7ba-7e77-2e35-5d81d6d58993",
-		"description": "",
+		"name": "gs-uploading-files",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "http://localhost:8000/",
+			"name": "http://localhost:8000/files",
 			"request": {
 				"method": "GET",
 				"header": [
@@ -16,25 +15,17 @@
 						"value": "application/x-www-form-urlencoded"
 					}
 				],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "file",
-							"type": "file",
-							"src": "testing.zip"
-						}
-					]
-				},
 				"url": {
-					"raw": "http://localhost:8080",
+					"raw": "http://localhost:8080/files",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080"
-				},
-				"description": null
+					"port": "8080",
+					"path": [
+						"files"
+					]
+				}
 			},
 			"response": []
 		},
@@ -48,72 +39,65 @@
 						"value": "application/x-www-form-urlencoded"
 					}
 				],
+				"url": {
+					"raw": "http://localhost:8081/files/test.sh",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"files",
+						"test.sh"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8000/files/upload/request?filename=test.json",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
 				"body": {
 					"mode": "formdata",
 					"formdata": [
 						{
 							"key": "file",
 							"type": "file",
-							"src": "testing.zip"
+							"src": "/Users/kong/wks/src/github/newlight77/gs-uploading-files/test/run.sh"
 						}
 					]
 				},
 				"url": {
-					"raw": "http://localhost:8080/files/test.json",
+					"raw": "http://localhost:8081/files/upload/request?filename=test.sh",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "8081",
 					"path": [
 						"files",
-						"test.json"
-					]
-				},
-				"description": null
-			},
-			"response": []
-		},
-		{
-			"name": "http://localhost:8000/upload?filename=test.json",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/x-www-form-urlencoded"
-					}
-				],
-				"body": {
-					"mode": "file",
-					"file": {
-						"src": ""
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8080/upload?filename=test.json",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"upload"
+						"upload",
+						"request"
 					],
 					"query": [
 						{
 							"key": "filename",
-							"value": "test.json",
-							"equals": true
+							"value": "test.sh"
 						}
 					]
-				},
-				"description": null
+				}
 			},
 			"response": []
 		},
 		{
-			"name": "http://localhost:8000/upload/multipart copy",
+			"name": "http://localhost:8000/files/upload/multipart",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -127,24 +111,60 @@
 					"formdata": [
 						{
 							"key": "file",
-							"value": "",
-							"type": "file"
+							"type": "file",
+							"src": "/Users/kong/wks/src/github/newlight77/gs-uploading-files/test/run.sh"
 						}
 					]
 				},
 				"url": {
-					"raw": "http://localhost:8080/upload/multipart",
+					"raw": "http://localhost:8081/files/upload/multipart",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "8081",
 					"path": [
+						"files",
 						"upload",
 						"multipart"
 					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8000/files/upload/fileupload",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/Users/kong/wks/src/github/newlight77/gs-uploading-files/test/run.sh"
+						}
+					]
 				},
-				"description": null
+				"url": {
+					"raw": "http://localhost:8081/files/upload/fileupload",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"files",
+						"upload",
+						"fileupload"
+					]
+				}
 			},
 			"response": []
 		}
